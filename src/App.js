@@ -55,8 +55,8 @@ function App() {
         messages.map((message, index) => (
           <Message
             key={index}
-            username={message.username}
-            text={message.text}
+            username={username}
+            message={message}
           />
         ))
       }
