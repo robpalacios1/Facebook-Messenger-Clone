@@ -6,10 +6,11 @@ function App() {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState([])
 
-  console.log(input);
-  console.log(messages);
+  console.log(input)
+  console.log(messages)
 
   const sendMessage = (event) => {
+    event.preventDefault();
     // all the logic to send a message
     setMessages([...messages, input]);
     setInput('');
@@ -19,14 +20,19 @@ function App() {
     <div className="App">
       <h1>Hello!</h1>
 
-      <input
-        value={input}
-        onChange={event => setInput(event.target.value)}
-      />
-      <button onClick={() => sendMessage()}>Send Message</button>
-      {/** input field */}
-      {/** button */}
-      {/** messages themselves */}
+      <form>
+        <input
+          value={input}
+          onChange={event => setInput(event.target.value)}
+        />
+        <button type='submit' onClick={sendMessage}>Send Message</button>
+      </form>
+
+      {
+        messages.map(message => (
+          <p>{message}</p>
+        ))
+      }
     </div>
   );
 }
