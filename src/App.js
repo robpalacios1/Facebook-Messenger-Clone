@@ -1,4 +1,12 @@
-import React, { useState } from 'react'
+import React, {  useState } from 'react'
+
+/***** Component *****/
+import Message from './components/Message'
+
+/***** Material-ui  *****/
+import { Button, FormControl, InputLabel, Input } from '@material-ui/core'
+
+/***** CSS *****/
 import './App.css';
 
 function App() {
@@ -18,19 +26,28 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Hello!</h1>
+      <h1>Facebook Messenger Clone</h1>
 
       <form>
-        <input
-          value={input}
-          onChange={event => setInput(event.target.value)}
-        />
-        <button type='submit' onClick={sendMessage}>Send Message</button>
+        <FormControl>
+          <InputLabel>Enter a mesage...</InputLabel>
+          <Input
+            value={input}
+            onChange={event => setInput(event.target.value)}
+          />
+          <Button
+            disabled={!input}
+            variant="contained"
+            color="primary"
+            type="submit"
+            onClick={sendMessage}>Send Message
+          </Button>
+        </FormControl>
       </form>
 
       {
-        messages.map(message => (
-          <p>{message}</p>
+        messages.map((message, index) => (
+          <Message key={index} text={message} />
         ))
       }
     </div>
