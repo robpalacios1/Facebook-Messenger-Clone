@@ -1,4 +1,6 @@
 import React, {  useEffect, useState } from 'react'
+import db from './firebase';
+import firebase from 'firebase'
 
 /***** Component *****/
 import Message from './components/Message'
@@ -13,19 +15,29 @@ import './App.css';
 function App() {
 
   const [input, setInput] = useState('')
-  const [messages, setMessages] = useState([
-    {username: 'Roberto', text: 'Hello'},
-    {username: 'Alicia', text: 'Hi, how are you?'}
-  ])
+  const [messages, setMessages] = useState([])
   const [username, setUsername] = useState('');
+
+  useEffect(() => {
+     db.collection("messages").onSnapshot(snapshot => {
+       setMessages(snapshot.docs.map(doc => doc.data()))
+     })
+  }, [])
 
   useEffect(() => {
     setUsername(prompt('Please Enter Your Name'))
   }, [])
 
+  console.log(messages)
+
   const sendMessage = (event) => {
     event.preventDefault();
-    setMessages([...messages, {username: username, text: input}]);
+
+    db.collection("messages").add({
+      message: input,
+      username: username,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
     setInput('');
   }
 
