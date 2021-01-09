@@ -10,6 +10,9 @@ import Message from './components/Message'
 /***** Material-ui  *****/
 import { Button, FormControl, InputLabel, Input } from '@material-ui/core'
 
+/***** Flip-Move *****/
+import FlipMove from 'react-flip-move'
+
 /***** CSS *****/
 import './App.css';
 
@@ -24,7 +27,7 @@ function App() {
      db.collection('messages')
       .orderBy('timestamp', 'desc')
       .onSnapshot(snapshot => {
-        setMessages(snapshot.docs.map(doc => doc.data()))
+        setMessages(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
      })
   }, [])
 
@@ -65,15 +68,17 @@ function App() {
         </FormControl>
       </form>
 
-      {
-        messages.map((message, index) => (
-          <Message
-            key={index}
-            username={username}
-            message={message}
-          />
-        ))
-      }
+      <FlipMove>
+        {
+          messages.map(({data}) => (
+            <Message
+              username={username}
+              message={data}
+            />
+          ))
+        }
+      </FlipMove>
+
     </div>
   );
 }
