@@ -1,4 +1,6 @@
 import React, {  useEffect, useState } from 'react'
+
+/***** Firebase *****/
 import db from './firebase';
 import firebase from 'firebase'
 
@@ -19,8 +21,10 @@ function App() {
   const [username, setUsername] = useState('');
 
   useEffect(() => {
-     db.collection("messages").onSnapshot(snapshot => {
-       setMessages(snapshot.docs.map(doc => doc.data()))
+     db.collection('messages')
+      .orderBy('timestamp', 'desc')
+      .onSnapshot(snapshot => {
+        setMessages(snapshot.docs.map(doc => doc.data()))
      })
   }, [])
 
@@ -28,12 +32,10 @@ function App() {
     setUsername(prompt('Please Enter Your Name'))
   }, [])
 
-  console.log(messages)
-
   const sendMessage = (event) => {
     event.preventDefault();
 
-    db.collection("messages").add({
+    db.collection('messages').add({
       message: input,
       username: username,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
