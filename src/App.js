@@ -8,7 +8,7 @@ import firebase from 'firebase'
 import Message from './components/Message'
 
 /***** Material-ui  *****/
-import { FormControl, InputLabel, Input } from '@material-ui/core'
+import { FormControl, Input } from '@material-ui/core'
 import { IconButton } from '@material-ui/core'
 
 /***** Icons *****/
@@ -57,14 +57,16 @@ function App() {
       <h2>Welcome: {username}</h2>
 
       <form className="app__form">
-        <FormControl>
-          <InputLabel>Enter a mesage...</InputLabel>
+        <FormControl className="app__formControl">
           <Input
+            className="app__input"
+            placeholder="Enter a mesage..."
             value={input}
             onChange={event => setInput(event.target.value)}
           />
 
           <IconButton
+            className="app__iconButton"
             disabled={!input}
             variant="contained"
             color="primary"
